@@ -33,7 +33,7 @@ ssh u1aas
 # note that instructions assume POWERSHELL is used
 
 # enter first step
-cd ../02-existing-env
+cd ../02-cp-management
 cp terraform.tfvars.sample terraform.tfvars
 
 # review inputs
