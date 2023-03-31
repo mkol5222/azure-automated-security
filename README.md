@@ -43,4 +43,9 @@ code terraform.tfvars
 terraform init
 terraform plan
 terraform apply
+
+# inspect the command
+terraform output -raw mgmt-login-pwsh
+# login with password in your clipboard
+terraform output -raw mgmt-login-pwsh | iex
 ```
