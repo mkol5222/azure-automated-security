@@ -1,0 +1,4 @@
+resource_group_name     = "rg-spring-demo"
+resource_group_location = "West Europe"
+
+virtual_network_name = "vnet-spring-demo"

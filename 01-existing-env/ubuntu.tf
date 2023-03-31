@@ -170,7 +170,7 @@ resource "azurerm_route_table" "linux-rt" {
   }
     route {
     name = "route-to-my-pub-ip"
-    address_prefix = "${data.http.myip.body}/32"
+    address_prefix = "${data.http.myip.response_body}/32"
     next_hop_type = "Internet"
   }
   route {

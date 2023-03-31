@@ -5,7 +5,7 @@ data "http" "myip" {
 }
 
 output "myip" {
-  value = data.http.myip.body
+  value = data.http.myip.response_body 
 }
 
 resource "azurerm_resource_group" "rg" {
