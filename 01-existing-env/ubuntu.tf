@@ -213,7 +213,7 @@ output "u1_ssh_config" {
   Host u1aas
     HostName ${azurerm_linux_virtual_machine.linuxvm.public_ip_address}
     User azureuser
-    IdentityFile conf.d/aasu1.key
+    IdentityFile ~/.ssh/config.d/u1aas.key
   EOT
 }
 output "u1_setup_pwsh" {
