@@ -21,9 +21,9 @@ terraform apply
 # we assume ~/.ssh/config.d exists and ~/.ssh/config has "Include config.d/*.conf" at top
 mkdir $env:USERPROFILE/.ssh/config.d
 # see setup commands
-terraform.exe output -raw  u1_setup_pwsh
+terraform output -raw  u1_setup_pwsh
 # run them
-terraform.exe output -raw  u1_setup_pwsh | iex
+terraform output -raw  u1_setup_pwsh | iex
 # profit
 ssh u1aas
 ```

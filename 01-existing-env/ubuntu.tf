@@ -218,8 +218,8 @@ output "u1_ssh_config" {
 }
 output "u1_setup_pwsh" {
   value = <<-EOT
-  terraform output -raw u1_ssh_key | Out-File $env:USERPROFILE/.ssh/config.d/u1aas.key
-  terraform output -raw u1_ssh_config | Out-File $env:USERPROFILE/.ssh/config.d/u1aas.conf
+  terraform output -raw u1_ssh_key | Out-File  -Encoding "UTF8" $env:USERPROFILE/.ssh/config.d/u1aas.key
+  terraform output -raw u1_ssh_config | Out-File  -Encoding "UTF8" $env:USERPROFILE/.ssh/config.d/u1aas.conf
   EOT
 }
 
