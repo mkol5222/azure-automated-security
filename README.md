@@ -1,6 +1,6 @@
 # Azure Automated Security workshop
 
-Deploy "existing" environment first
+## Deploy "existing" environment first
 
 ```powershell
 # note that instructions assume POWERSHELL is used
@@ -26,4 +26,21 @@ terraform.exe output -raw  u1_setup_pwsh
 terraform.exe output -raw  u1_setup_pwsh | iex
 # profit
 ssh u1aas
+```
+
+## Deploy Check Point Management Server
+```powershell
+# note that instructions assume POWERSHELL is used
+
+# enter first step
+cd ../02-existing-env
+cp terraform.tfvars.sample terraform.tfvars
+
+# review inputs
+code terraform.tfvars
+
+# deploy
+terraform init
+terraform plan
+terraform apply
 ```
