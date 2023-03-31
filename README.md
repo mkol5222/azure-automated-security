@@ -49,3 +49,9 @@ terraform output -raw mgmt-login-pwsh
 # login with password in your clipboard
 terraform output -raw mgmt-login-pwsh | iex
 ```
+
+## Deploy Check Point Cluster to existing network
+```powershell
+# note that instructions assume POWERSHELL is used
+
+```
