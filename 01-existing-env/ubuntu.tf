@@ -222,5 +222,13 @@ output "u1_setup_pwsh" {
   terraform output -raw u1_ssh_config | Out-File -Encoding ASCII $env:USERPROFILE/.ssh/config.d/u1aas.conf
   EOT
 }
-
+output "u1_setup_bash" {
+  value = <<-EOT
+  mkdir ~/.ssh/config.d/
+  terraform output -raw u1_ssh_key > ~/.ssh/config.d/u1aas.key
+  terraform output -raw u1_ssh_config > ~/.ssh/config.d/u1aas.conf
+  chmod 400 /home/hiro/.ssh/config.d/u1aas.key
+  echo 'Make sure you Include config.d/*.conf in your ~/.ssh/config'
+  EOT
+}
 

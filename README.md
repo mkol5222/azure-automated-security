@@ -24,8 +24,14 @@ mkdir $env:USERPROFILE/.ssh/config.d
 terraform output -raw  u1_setup_pwsh
 # run them
 terraform output -raw  u1_setup_pwsh | iex
+# same for Linux/WSL env
+terraform output -raw  u1_setup_bash
+terraform output -raw  u1_setup_bash | bash
 # profit
 ssh u1aas
+
+# remember to remove your lab, once you stop using them
+terraform destroy
 ```
 
 ## Deploy Check Point Management Server
