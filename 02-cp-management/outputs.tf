@@ -10,3 +10,7 @@ output "mgmt-login-pwsh" {
     value = "terraform output -raw mgmt-pass | clip; ssh admin@${azurerm_public_ip.public-ip.ip_address}"
     sensitive = true
 }
+output "mgmt-login-bash" {
+    value = "terraform output -raw mgmt-pass | clip.exe; ssh admin@${azurerm_public_ip.public-ip.ip_address}"
+    sensitive = true
+}
