@@ -5,12 +5,12 @@ data "http" "myip" {
 }
 
 output "myip" {
-  value = data.http.myip.response_body 
+  value = data.http.myip.response_body
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.resource_group_location
+  name     = var.vnet_resource_group
+  location = var.location
 
   lifecycle {
     ignore_changes = [
@@ -22,7 +22,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_virtual_network" "vnet" {
-  name                = var.virtual_network_name
+  name                = var.vnet_name
   address_space       = ["10.42.0.0/16"]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -63,9 +63,17 @@ resource "azurerm_subnet" "cp-front" {
   address_prefixes     = ["10.42.3.0/24"]
 }
 
+variable "management_subnet_name" {
+  description = "subnet for management VM"
+  default = "net-mgmt"
+}
+variable "management_subnet_address" {
+  description = "subnet for management VM address - e.g. 10.42.99.0/24"
+  default = "10.42.99.0/24"
+}
 resource "azurerm_subnet" "net-mgmt" {
-  name                 = "net-mgmt"
+  name                 = var.management_subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.42.99.0/24"]
+  address_prefixes     = [var.management_subnet_address]
 }

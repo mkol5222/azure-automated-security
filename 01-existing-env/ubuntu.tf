@@ -156,6 +156,12 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
 
 }
 
+
+variable "route_through_firewall" {
+  default     = false
+  description = "create route from Linux segment through firewall VNA"
+}
+
 resource "azurerm_route_table" "linux-rt" {
   name                          = "linux-rt-tf"
   location                      = azurerm_resource_group.rg.location
@@ -168,17 +174,21 @@ resource "azurerm_route_table" "linux-rt" {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = "10.42.4.47"
   }
-    route {
-    name = "route-to-my-pub-ip"
-    address_prefix = "${data.http.myip.response_body}/32"
-    next_hop_type = "Internet"
-  }
   route {
-    name                   = "to-internet"
-    address_prefix         = "0.0.0.0/0"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.42.4.47"
+    name           = "route-to-my-pub-ip"
+    address_prefix = "${data.http.myip.response_body}/32"
+    next_hop_type  = "Internet"
   }
+  dynamic "route" {
+    for_each = var.route_through_firewall ? [1] : []
+    content {
+      name                   = "to-internet"
+      address_prefix         = "0.0.0.0/0"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.42.4.47"
+    }
+  }
+
 
   lifecycle {
     ignore_changes = [
@@ -216,19 +226,21 @@ output "u1_ssh_config" {
     IdentityFile ~/.ssh/config.d/u1aas.key
   EOT
 }
-output "u1_setup_pwsh" {
-  value = <<-EOT
-  terraform output -raw u1_ssh_key | Out-File -Encoding ASCII  $env:USERPROFILE/.ssh/config.d/u1aas.key
-  terraform output -raw u1_ssh_config | Out-File -Encoding ASCII $env:USERPROFILE/.ssh/config.d/u1aas.conf
-  EOT
-}
+# output "u1_setup_pwsh" {
+#   value = <<-EOT
+#   terraform output -raw u1_ssh_key | Out-File -Encoding ASCII  $env:USERPROFILE/.ssh/config.d/u1aas.key
+#   terraform output -raw u1_ssh_config | Out-File -Encoding ASCII $env:USERPROFILE/.ssh/config.d/u1aas.conf
+#   EOT
+# }
 output "u1_setup_bash" {
   value = <<-EOT
   mkdir ~/.ssh/config.d/
+  grep -qxF 'Include config.d/*.conf' ~/.ssh/config || sed -i '$ a\Include config.d/*.conf' ~/.ssh/config
+  chmod u=rw ~/.ssh/config.d/u1aas.key
   terraform output -raw u1_ssh_key > ~/.ssh/config.d/u1aas.key
   terraform output -raw u1_ssh_config > ~/.ssh/config.d/u1aas.conf
-  chmod 400 /home/hiro/.ssh/config.d/u1aas.key
-  echo 'Make sure you Include config.d/*.conf in your ~/.ssh/config'
+  chmod 400 ~/.ssh/config.d/u1aas.key
+  # echo 'Make sure you Include config.d/*.conf in your ~/.ssh/config'
   EOT
 }
 

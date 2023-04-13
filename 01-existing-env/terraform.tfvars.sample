@@ -1,4 +1,13 @@
-resource_group_name     = "rg-spring-demo"
-resource_group_location = "West Europe"
 
-virtual_network_name = "vnet-spring-demo"
+
+
+vnet_name                       = "vnet-spring-demo"                              # "checkpoint-mgmt-vnet"
+vnet_resource_group             = "rg-spring-demo"             # "existing-vnet"
+location                        = "West Europe"                                          # "eastus"
+
+management_subnet_name          = "net-mgmt"                                  # "mgmt-subnet"
+management_subnet_address       = "10.42.99.0/24"
+
+route_through_firewall = false
+
+
