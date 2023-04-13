@@ -10,6 +10,7 @@ resource "azurerm_public_ip" "public_ip" {
   }
 }
 
+
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "nsg" {
   name                = "u1-ngs"
@@ -28,6 +29,7 @@ resource "azurerm_network_security_group" "nsg" {
     destination_address_prefix = "*"
   }
   
+ 
   security_rule {
     name                       = "Web"
     priority                   = 1002
