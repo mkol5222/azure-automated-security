@@ -38,6 +38,15 @@ terraform destroy
 # enter second step - Management server deployment
 cd ../02-cp-management
 
+# check existing VNET env
+VNET_RG="rg-spring-demo"
+VNET_NAME="vnet-spring-demo"
+MGMT_SUBNET="net-mgmt"
+az network vnet subnet list -g $VNET_RG --vnet-name $VNET_NAME -o table
+# look for "net-mgmt" address - e.g. 10.42.99.0/24
+az network vnet subnet list-available-ips --name $MGMT_SUBNET -g $VNET_RG --vnet-name $VNET_NAME -o table
+# can be used for subnet_1st_Address var
+
 # review inputs
 cp terraform.tfvars.sample terraform.tfvars
 code terraform.tfvars
@@ -47,13 +56,15 @@ terraform init
 terraform plan
 terraform apply
 
+# this is how to login to Management
+# review - notice password is stored to clipboard for easy login
+#   VM initialization TAKES TIME
+terraform output -raw mgmt-login-bash; echo 
 ```
 
 ## Deploy Check Point Cluster to existing network
-```powershell
-# note that instructions assume POWERSHELL is used
+```bash
 
-# note that instructions assume POWERSHELL is used
 
 # enter second step - Management server deployment
 cd ../03-cp-cluster
